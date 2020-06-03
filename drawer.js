@@ -9,7 +9,7 @@ const Drawer = createDrawerNavigator({
     },
     Multi:{
         screen:multiConvertStack
-    }
+    },
 })
 
 

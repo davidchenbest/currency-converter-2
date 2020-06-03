@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text,StyleSheet,TouchableOpacity } from "react-native";
 
 export default function BaseSelect (props){
     
@@ -17,7 +17,21 @@ export default function BaseSelect (props){
 
     return(
         <View>
-            {base.map((x, i )=> <Text key={i} onPress={()=>select(x.b)}>{x.b}</Text>)}
+            {base.map((x, i )=> <TouchableOpacity style={styles.individual} key={i} onPress={()=>select(x.b)}><Text  style={styles.font}  >{x.b}</Text></TouchableOpacity>)}
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    individual:{
+        height:40,
+        backgroundColor:'lightgray',
+        margin:5,
+        justifyContent:'center',
+        alignItems:'center'
+
+    },
+    font:{
+        fontSize:20
+    }
+})
