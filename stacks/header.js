@@ -1,5 +1,5 @@
 import React from 'react'
-import {StyleSheet, Text, View, Button, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, Button, Image, TouchableOpacity, Keyboard,TouchableWithoutFeedback} from 'react-native';
 
 
 export default function Header({navigation, title}){
@@ -7,12 +7,15 @@ export default function Header({navigation, title}){
         navigation.openDrawer()
     }
     return (
-        <View style={styles.container}>
-            <TouchableOpacity onPress={openMenu}>
-                <Image style={styles.nav} source={require('../assets/nav.png')}  />
-            </TouchableOpacity>            
-                <Text style={styles.title}>{title}</Text>
-        </View>
+        <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
+            <View style={styles.container}>
+                <TouchableOpacity onPress={openMenu}>
+                    <Image style={styles.nav} source={require('../assets/nav.png')}  />
+                </TouchableOpacity>            
+                    <Text style={styles.title}>{title}</Text>
+            </View>
+        </TouchableWithoutFeedback>
+        
     )
 }
 

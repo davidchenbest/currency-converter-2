@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {  View, Text, Button, Modal,SafeAreaView,StyleSheet,TextInput,TouchableOpacity,Image } from "react-native";
+import { TouchableWithoutFeedback, Keyboard, View, Text, Button, Modal,SafeAreaView,StyleSheet,TextInput,TouchableOpacity,Image } from "react-native";
 
 
 
@@ -9,14 +9,20 @@ export default function MultiConvert (props){
     const [visible, setVisible] = useState({v:false, updates: 0});
     const [result, setResult] = useState([]);
     const [base, setBase] = useState([
-        {b:'USD',checked:false},
-        {b:'CAD',checked:false},
-        {b:'CNY',checked:false},
+        {b:'USD', name:'US Dollar', checked:false},
+        {b:'CAD', name:'Canadian Dollar', checked:false},
+        {b:'CNY', name:'Chinese Yuan', checked:false},
+        {b:'EUR', name:'Euro', checked:false},
+        {b:'JPY', name:'Japanese Yen', checked:false},
+        {b:'HKD', name:'Hong Kong Dollar', checked:false}
     ])
     const [selected, setSelected] = useState([
-        {b:'USD',checked:false},
-        {b:'CAD',checked:false},
-        {b:'CNY',checked:false},
+        {b:'USD', name:'US Dollar', checked:false},
+        {b:'CAD', name:'Canadian Dollar', checked:false},
+        {b:'CNY', name:'Chinese Yuan', checked:false},
+        {b:'EUR', name:'Euro', checked:false},
+        {b:'JPY', name:'Japanese Yen', checked:false},
+        {b:'HKD', name:'Hong Kong Dollar', checked:false}
     ])
     const [num, setNum] = useState(0)
 
@@ -88,52 +94,54 @@ export default function MultiConvert (props){
     }  
 
     const generateBase =(x,i) => {  
-        if(x.checked)return <TouchableOpacity key={i} onPress={()=>toggleBaseModal(x,i)} style={{...styles.individual, backgroundColor:'lightgreen'}} ><Text style={styles.textInput}>{x.b}</Text></TouchableOpacity>
-        return <TouchableOpacity key={i} onPress={()=>toggleBaseModal(x,i)} style={styles.individual} ><Text style={styles.textInput}>{x.b}</Text></TouchableOpacity>
+        if(x.checked)return <TouchableOpacity key={i} onPress={()=>toggleBaseModal(x,i)} style={{...styles.individual, backgroundColor:'lightgreen'}} ><Text style={styles.font}>{x.name}</Text></TouchableOpacity>
+        return <TouchableOpacity key={i} onPress={()=>toggleBaseModal(x,i)} style={styles.individual} ><Text style={styles.font}>{x.name}</Text></TouchableOpacity>
     }
 
     const generateSelected = (x,i) => {
-        if(x.checked)return <TouchableOpacity key={i} onPress={()=>chooseSelected(x,i)} style={{...styles.individual, backgroundColor:'lightgreen'}} ><Text style={styles.textInput}>{x.b}</Text></TouchableOpacity>
-        return <TouchableOpacity key={i} onPress={()=>chooseSelected(x,i)} style={styles.individual} ><Text style={styles.textInput}>{x.b}</Text></TouchableOpacity>
+        if(x.checked)return <TouchableOpacity key={i} onPress={()=>chooseSelected(x,i)} style={{...styles.individual, backgroundColor:'lightgreen'}} ><Text style={styles.font}>{x.name}</Text></TouchableOpacity>
+        return <TouchableOpacity key={i} onPress={()=>chooseSelected(x,i)} style={styles.individual} ><Text style={styles.font}>{x.name}</Text></TouchableOpacity>
     }
 
     return(
-        <SafeAreaView style={styles.container}> 
-            <TouchableOpacity onPress={clearBase} style={styles.btn} ><Text style={styles.font}>Base: {currentBase}</Text></TouchableOpacity>
-            
-                     
-            <Modal visible={baseVisible} animationType ='slide' >
-                <View style={styles.modal}>
-                    {base.map(generateBase)}
-                </View>                
-            </Modal>
-            
-            <Modal visible={visible.v} animationType ='slide' >
-                <View style={styles.modal}>
-                    <TouchableOpacity onPress={()=>setVisible({v:!visible.v, updates: setVisible.updates++})}>
-                        <Image style={styles.back} source={require('../assets/back.png')}  />
-                    </TouchableOpacity> 
-                    
-                    {selected.map(generateSelected)}
-                </View>
+        <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
+            <SafeAreaView style={styles.container}> 
+                <TouchableOpacity onPress={clearBase} style={styles.btn} ><Text style={styles.font}>Base: {currentBase}</Text></TouchableOpacity>
                 
-            </Modal>
+                        
+                <Modal visible={baseVisible} animationType ='slide' >
+                    <View style={styles.modal}>
+                        {base.map(generateBase)}
+                    </View>                
+                </Modal>
+                
+                <Modal visible={visible.v} animationType ='slide' >
+                    <View style={styles.modal}>
+                        <TouchableOpacity onPress={()=>setVisible({v:!visible.v, updates: setVisible.updates++})}>
+                            <Image style={styles.back} source={require('../assets/back.png')}  />
+                        </TouchableOpacity> 
+                        
+                        {selected.map(generateSelected)}
+                    </View>
+                    
+                </Modal>
 
+                
+                
             
-            
-         
 
-            <TextInput placeholder='Amount' style={styles.textInput} keyboardType='numeric'
-            onChangeText={ (val)=> setNum(val) }
-          />
+                <TextInput placeholder='Amount' style={styles.textInput} keyboardType='numeric'
+                onChangeText={ (val)=> setNum(val) }
+            />
 
-            <TouchableOpacity onPress={()=>setVisible({v:!visible.v, updates: setVisible.updates++})} style={styles.btn}><Text style={styles.font}>Select</Text></TouchableOpacity>
-            <View>
-                <Text>Result:</Text>
-                {result.map((r,i )=><Text key={i}>{r.b}: {r.c}</Text>)}
-            </View>
-            <Button title='Submit' onPress={getResult} />
-        </SafeAreaView>
+                <TouchableOpacity onPress={()=>setVisible({v:!visible.v, updates: setVisible.updates++})} style={styles.btn}><Text style={styles.font}>Select</Text></TouchableOpacity>
+                <View>
+                    <Text>Result:</Text>
+                    {result.map((r,i )=><Text key={i} style={styles.font}>{r.b}: {r.c}</Text>)}
+                </View>
+                <Button title='Submit' onPress={getResult} />
+            </SafeAreaView>
+        </TouchableWithoutFeedback>
     )
 }
 

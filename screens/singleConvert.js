@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, Button, TextInput} from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableWithoutFeedback, Keyboard, View, Text, Button, StyleSheet,TextInput,TouchableOpacity } from "react-native";
+
 
 
 export default function SingleConvert(props) {
@@ -37,24 +37,27 @@ export default function SingleConvert(props) {
     }
         
   return (    
-      <View style={styles.container}>
-          <TouchableOpacity  onPress={goBase} style={styles.base}>
-                <Text style={styles.baseText}>Base: {props.navigation.getParam('base')? props.navigation.getParam('base'): 'USD'}</Text>
-          </TouchableOpacity>
-          
-          <TextInput placeholder='Amount' style={styles.textInput} keyboardType='numeric'
-            onChangeText={ (val)=> setNum(val) }
-          />
-                   
-        
-          <TouchableOpacity  onPress={goSelected} style={styles.selected}>
-                <Text style={styles.baseText}>Selected: {props.navigation.getParam('selected')? props.navigation.getParam('selected'): 'CAD'}</Text>
-          </TouchableOpacity>
+      <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
+        <View style={styles.container}>
+            <TouchableOpacity  onPress={goBase} style={styles.base}>
+                    <Text style={styles.baseText}>Base: {props.navigation.getParam('base')? props.navigation.getParam('base'): 'USD'}</Text>
+            </TouchableOpacity>
+            
+            <TextInput placeholder='Amount' style={styles.textInput} keyboardType='numeric'
+                onChangeText={ (val)=> setNum(val) }
+            />
+                    
+            
+            <TouchableOpacity  onPress={goSelected} style={styles.selected}>
+                    <Text style={styles.baseText}>Selected: {props.navigation.getParam('selected')? props.navigation.getParam('selected'): 'CAD'}</Text>
+            </TouchableOpacity>
 
-        <Text style={styles.result} >Result: {result}</Text>
+            <Text style={styles.result} >Result: {result}</Text>
 
-        <Button title='Submit' onPress={getResult} />
-      </View>
+            <Button title='Submit' onPress={getResult} />
+        </View>
+
+      </TouchableWithoutFeedback>
       
     
   );
@@ -62,7 +65,9 @@ export default function SingleConvert(props) {
 const styles =StyleSheet.create({
     container:{
         marginHorizontal:20,
-        marginVertical: 20
+        marginVertical: 20,
+        flex:1
+
     },
     textInput:{
         borderWidth:1,
